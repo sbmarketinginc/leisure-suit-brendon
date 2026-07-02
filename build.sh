@@ -29,7 +29,7 @@ JS_FILES=(
   echo '</script>'
 } > dist/artifact.html
 
-SITE_URL='https://sbmarketinginc.github.io/leisure-suit-brendon/'
+SITE_URL='https://leisuresuitbrendon.com/'
 OG_DESC="It's 10 PM in Pittsburgh. Find true love by sunrise. A free retro point-and-click parody adventure in the City of Bridges."
 
 {

@@ -1,6 +1,6 @@
 # Leisure Suit Brendon 🕺
 
-**► [PLAY IT IN YOUR BROWSER](https://sbmarketinginc.github.io/leisure-suit-brendon/)**
+**► [PLAY IT IN YOUR BROWSER](https://leisuresuitbrendon.com)**
 
 An original parody homage to the classic 1987 Sierra adventure — set in **Pittsburgh**.
 It's 10 PM on the South Side. Brendon — 38, creative genius (self-described), one white

@@ -349,9 +349,10 @@ const E = (() => {
     A.R(0, 0, 640, 22, '#efeadb');
     A.R(0, 22, 640, 2, '#000');
     F.text(cx, 'LEISURE SUIT BRENDON', 8, 4, 2, '#1a1a24');
-    F.center(cx, timeStr(), 340, 4, 2, '#1a1a24');
     const right = `SCORE:${G.score} OF ${maxScore()}  $${G.money}`;
-    F.text(cx, right, 632 - F.width(right, 2), 4, 2, '#1a1a24');
+    const rx = 632 - F.width(right, 2);
+    F.text(cx, right, rx, 4, 2, '#1a1a24');
+    F.center(cx, timeStr(), (8 + F.width('LEISURE SUIT BRENDON', 2) + rx) / 2, 4, 2, '#1a1a24');
   }
 
   return {

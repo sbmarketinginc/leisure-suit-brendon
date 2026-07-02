@@ -942,9 +942,10 @@ const E = (() => {
     A.R(0, 0, 640, 22, '#efeadb');
     A.R(0, 22, 640, 2, '#000');
     F.text(cx, 'LEISURE SUIT BRENDON', 8, 4, 2, '#1a1a24');
-    F.center(cx, timeStr(), 340, 4, 2, '#1a1a24');
     const right = `SCORE:${G.score} OF ${maxScore()}  $${G.money}`;
-    F.text(cx, right, 632 - F.width(right, 2), 4, 2, '#1a1a24');
+    const rx = 632 - F.width(right, 2);
+    F.text(cx, right, rx, 4, 2, '#1a1a24');
+    F.center(cx, timeStr(), (8 + F.width('LEISURE SUIT BRENDON', 2) + rx) / 2, 4, 2, '#1a1a24');
   }
 
   return {
@@ -2709,7 +2710,8 @@ const TAXI = (() => {
     hint() {
       if (!G.flags.graceBusy) return G.flags.readMag || E.has('mag') ? "Grace would trade her own desk bell for fresh gossip. GIVE the MAGAZINE TO GRACE." : "Grace guards the penthouse elevator. Word is she'd kill for celebrity gossip — the Get-N-Go sells a magazine…";
       if (!G.flags.tookKeycard) return "Grace is GONE into page six. That gold KEYCARD on the desk is basically asking to be taken.";
-      if (G.money < 50) return "The penthouse doorman charges a $50 cover. The casino floor next door would love to 'help'.";
+      if (G.flags.phCoverPaid) return "Cover's paid — you're on the doorman's list for good. USE the ELEVATOR whenever you're ready.";
+      if (G.money < 50) return "The penthouse doorman charges a $50 cover (once — he'll remember you). The casino floor next door would love to 'help'.";
       return "Keycard, password, cash. USE the ELEVATOR — destiny's on the roof.";
     },
   };
@@ -2745,6 +2747,11 @@ const TAXI = (() => {
       return E.say("You press PH. The elevator emits the exact sound of a game show wrong answer. A tiny slot glows: KEYCARD REQUIRED.", "Behind you, Grace, without looking up: 'Told ya, sugar.'");
     }
     SFX.ding();
+    if (G.flags.phCoverPaid) {
+      await E.say("The keycard turns the slot GREEN. The doors already know you.");
+      await E.speak('DOORMAN', "*unhooks the rope without looking up* Mr. Pony. Welcome back.");
+      return E.goto('penthouse', 90, 340);
+    }
     await E.say("The keycard turns the slot GREEN. The doors part like golden curtains. You ascend past floor after floor of people having a worse night than you're about to have.");
     await E.sayRaw([{ t: "The doors open on the penthouse landing. A doorman in a tuxedo the size of a two-car garage blocks the velvet rope. He looks at you like an RSVP that bounced.", who: 'THE NARRATOR' }]);
     await E.speak('DOORMAN', "Private party. Password.");
@@ -2762,6 +2769,7 @@ const TAXI = (() => {
     const pc = await E.choose('Pay the $50 cover?', ["Pay it. Destiny doesn't haggle.", "Not yet."]);
     if (pc === 1) return E.say("You retreat to count your money like a squirrel with trust issues.");
     E.pay(50, 'penthouse cover'); E.award('ph_cover', 'high roller');
+    G.flags.phCoverPaid = true;
     SFX.fanfare();
     await E.say("The velvet rope unclips. Warm night air, string lights, the hum of a rooftop party that considers itself the center of the universe. And beyond it… a jacuzzi.");
     E.goto('penthouse', 90, 340);
@@ -2827,7 +2835,8 @@ const TAXI = (() => {
       { re: /^(gamble|bet)$/, fn: () => E.say("Pick your poison: the SLOTS or the BLACKJACK table.") },
     ],
     hint() {
-      if (G.money < 50) return "You need a bankroll ($50+ for the penthouse cover). Slots are fast; blackjack pays better if you keep your head. If you go fully broke, flag down the waitress.";
+      if (G.flags.phCoverPaid) return "You're on the doorman's list — no more cover. Cash out while you're smiling; the elevator's in the lobby.";
+      if (G.money < 50) return "You need a bankroll ($50+ for the penthouse cover — you only pay it once). Slots are fast; blackjack pays better if you keep your head. If you go fully broke, flag down the waitress.";
       return "You're flush! The penthouse elevator is back in the lobby. (Keycard? Password? You know the drill.)";
     },
   };
@@ -2900,11 +2909,11 @@ const TAXI = (() => {
       { re: /^spray breath( spray)?$/, fn: () => E.has('spray') ? sprayBreath() : E.say("You have no breath spray. The Get-N-Go does.") },
     ],
     hint() {
-      if (!G.flags.minty) return "Before you talk to anyone up here — ESPECIALLY her — deploy the breath spray. Trust the hint. USE SPRAY.";
+      if (!G.flags.minty) return E.has('spray') ? "Before you talk to anyone up here — ESPECIALLY her — deploy the breath spray. Trust the hint. USE SPRAY." : "Your breath arrived up here a full minute before you did. The Get-N-Go sells ARCTIC BLAST ($3) — and relax, the doorman remembers you now. Taxi's downstairs.";
       const t3 = G.got.eva_talk3;
       if (!t3) return "TALK to Eva. Be honest. Be funny. Every sleazy line you've practiced tonight? Bury it.";
-      if (!G.got.eva_apple) return "Eva, 4 AM, health nut, surrounded by champagne and canapés. Somewhere in your pocket is the one thing she actually wants. (It's the APPLE.)";
-      if (!G.got.eva_wine) return "You've still got that wine. Two glasses, one skyline. GIVE WINE TO EVA.";
+      if (!G.got.eva_apple) return E.has('apple') ? "Eva, 4 AM, health nut, surrounded by champagne and canapés. Somewhere in your pocket is the one thing she actually wants. (It's the APPLE.)" : "She wants something REAL. Real food. The Get-N-Go's FRESH-ISH basket holds exactly one honest apple ($1) — and you're on the doorman's list, so the roof will wait.";
+      if (!G.got.eva_wine) return E.has('wine') ? "You've still got that wine. Two glasses, one skyline. GIVE WINE TO EVA." : "Real drink, she said. Château Persuasion, $10 at the Get-N-Go — beats every $400 bottle on this roof. The elevator remembers you.";
       return "Talk to Eva one more time. The sun's almost up.";
     },
   };

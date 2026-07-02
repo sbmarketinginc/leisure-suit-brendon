@@ -31,6 +31,7 @@ JS_FILES=(
 
 SITE_URL='https://leisuresuitbrendon.com/'
 OG_DESC="It's 10 PM in Pittsburgh. Find true love by sunrise. A free retro point-and-click parody adventure in the City of Bridges."
+GA_ID='G-3J149NJTZ4'   # Google Analytics 4, property "leisuresuitbrendon.com"
 
 {
   echo '<!doctype html><html lang="en"><head><meta charset="utf-8">'
@@ -47,6 +48,16 @@ OG_DESC="It's 10 PM in Pittsburgh. Find true love by sunrise. A free retro point
   echo '<meta name="twitter:title" content="Leisure Suit Brendon — In the City of Bridges">'
   echo "<meta name=\"twitter:description\" content=\"$OG_DESC\">"
   echo "<meta name=\"twitter:image\" content=\"${SITE_URL}share.png\">"
+  cat <<EOF
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=$GA_ID"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '$GA_ID');
+</script>
+EOF
   echo '</head><body>'
   cat dist/artifact.html
   echo '</body></html>'

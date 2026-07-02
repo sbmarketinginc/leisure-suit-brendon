@@ -3,8 +3,9 @@
 **► [PLAY IT IN YOUR BROWSER](https://sbmarketinginc.github.io/leisure-suit-brendon/)**
 
 An original parody homage to the classic 1987 Sierra adventure — set in **Pittsburgh**.
-It's 10 PM on the South Side. Brendon Schenecker — 38, one white leisure suit, $94, breath
-like ambition — has until sunrise to find true love in the City of Bridges.
+It's 10 PM on the South Side. Brendon — 38, creative genius (self-described), one white
+leisure suit, $94, breath like ambition — has until sunrise to find true love in the
+City of Bridges.
 
 ![Title screen](shots/20_title_pgh.png)
 

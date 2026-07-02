@@ -51,6 +51,8 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+#cv,.vb,.msgbox,.choices button,.panel .pbtn,.invcell{touch-action:manipulation}
 body{
   background:var(--room);
   background-image:radial-gradient(1200px 700px at 50% 12%, #171426 0%, var(--room) 62%);
@@ -220,13 +222,45 @@ body{
 
 #byline{text-align:center;color:#565064;font-size:11px;margin-top:12px;letter-spacing:.04em;line-height:1.6}
 
+/* ── phones, portrait: edge-to-edge, screen stretched to CRT 4:3 (taller) ── */
 @media (max-width:560px){
-  #stage{padding:8px 4px 20px}
-  #cabinet{padding:8px 8px 8px;border-radius:12px}
-  .vb{padding:10px 8px;min-width:0;flex:1 1 auto;text-align:center}
+  #stage{padding:6px 0 16px}
+  #cabinet{padding:6px 6px 8px;border-radius:0}
+  /* 640×400 displayed at 4:3, like the original monitors — 20% taller scene */
+  #screenwrap{aspect-ratio:4/3}
+  #cv{width:100%;height:100%}
+  .vb{padding:11px 6px;min-width:0;flex:1 1 auto;text-align:center}
   .spacer{display:none}
   .msgbox{font-size:14px;width:88%}
   .choices{width:92%}
+  #cmd{font-size:16px}   /* ≥16px stops iOS from zooming in on focus */
+  #byline{padding:0 10px}
+}
+
+/* ── phones, landscape: screen fits the height, controls move beside it ── */
+@media (max-height:540px) and (orientation:landscape){
+  #stage{max-width:none;min-height:100vh;min-height:100dvh;margin:0;padding:0;display:flex;flex-direction:column}
+  #cabinet{
+    flex:1;min-height:0;border-radius:0;
+    display:flex;gap:10px;align-items:center;
+    padding:8px calc(8px + env(safe-area-inset-right,0px)) 8px calc(8px + env(safe-area-inset-left,0px));
+  }
+  #screenwrap{
+    flex:none;
+    width:min(62vw, calc((100vh - 16px) * 4 / 3));
+    width:min(62vw, calc((100dvh - 16px) * 4 / 3));
+    aspect-ratio:4/3;
+  }
+  #cv{width:100%;height:100%}
+  #deck{flex:1;min-width:0;margin:0;align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:7px}
+  #verbrow{gap:5px}
+  .vb{flex:1 1 30%;min-width:0;padding:9px 4px;text-align:center;font-size:11.5px}
+  .spacer{display:none}
+  #hoverline{margin:0 2px}
+  #cmdform{margin:0}
+  #cmd{font-size:16px}
+  .msgbox{font-size:13px}
+  #byline{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   .toast{animation:none}

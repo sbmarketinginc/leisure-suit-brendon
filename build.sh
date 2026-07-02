@@ -34,7 +34,7 @@ OG_DESC="It's 10 PM in Pittsburgh. Find true love by sunrise. A free retro point
 
 {
   echo '<!doctype html><html lang="en"><head><meta charset="utf-8">'
-  echo '<meta name="viewport" content="width=device-width, initial-scale=1">'
+  echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
   echo "<meta name=\"description\" content=\"$OG_DESC\">"
   echo '<meta property="og:type" content="website">'
   echo '<meta property="og:title" content="Leisure Suit Brendon — In the City of Bridges">'

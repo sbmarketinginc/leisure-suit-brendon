@@ -1,0 +1,199 @@
+/* ── Leisure Suit Brendon ─ CRT cabinet chrome ───────────────────────────── */
+:root{
+  --room:#0b0b13;          /* the dark den the monitor sits in            */
+  --bezel:#211d29;         /* plastic monitor shell, warm dark violet-grey */
+  --bezel-hi:#3a3348;
+  --deck:#17141f;
+  --ink:#e8e4da;           /* warm paper-white                             */
+  --dim:#8d8798;
+  --neon-pink:#ff5df1;
+  --neon-cyan:#41f0e0;
+  --gold:#f5c542;
+  --danger:#ff4d5e;
+  --btn:#2a2536;
+  --btn-hi:#4d4462;
+  --btn-lo:#151220;
+  --mono:"Menlo","Consolas","IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--room);
+  background-image:radial-gradient(1200px 700px at 50% 12%, #171426 0%, var(--room) 62%);
+  color:var(--ink);
+  font-family:var(--mono);
+  min-height:100vh;
+}
+#stage{max-width:760px;margin:0 auto;padding:18px 10px 34px}
+
+/* monitor */
+#cabinet{
+  background:linear-gradient(175deg,var(--bezel-hi),var(--bezel) 22%,#181521 90%);
+  border-radius:18px;
+  padding:16px 16px 12px;
+  box-shadow:0 24px 60px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.07);
+}
+#screenwrap{
+  position:relative;
+  background:#000;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:inset 0 0 0 2px #000, inset 0 0 34px rgba(0,0,0,.9);
+}
+#cv{
+  display:block;width:100%;height:auto;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  cursor:crosshair;
+}
+#scanlines{
+  position:absolute;inset:0;pointer-events:none;border-radius:8px;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);
+  mix-blend-mode:multiply;
+}
+#scanlines::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 95% at 50% 45%,transparent 62%,rgba(0,0,0,.42) 100%);
+}
+
+/* overlay layer: message boxes, choices, minigames */
+#overlay{position:absolute;inset:0;pointer-events:none}
+#overlay>*{pointer-events:auto}
+.msgbox{
+  position:absolute;left:50%;transform:translateX(-50%);
+  top:12%;
+  width:min(78%,470px);
+  background:#f7f3e6;color:#141414;
+  border:3px solid #b02020;outline:3px solid #f7f3e6;
+  padding:12px 14px 9px;
+  font-size:15px;line-height:1.45;
+  box-shadow:6px 8px 0 rgba(0,0,0,.55);
+  cursor:pointer;user-select:none;
+}
+.msgbox .who{color:#b02020;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px;display:block;margin-bottom:4px}
+.msgbox .more{display:block;text-align:right;color:#b02020;font-size:11px;margin-top:6px;letter-spacing:.1em}
+.msgbox.death{background:#2b0508;color:#ffd9dc;border-color:#ff4d5e;outline-color:#2b0508}
+.msgbox.death .who{color:#ff8b96}
+.msgbox.death .more{color:#ff8b96}
+.msgbox.think{background:#101623;color:#cfe3ff;border-color:#41f0e0;outline-color:#101623}
+.msgbox.think .who{color:#41f0e0}
+.msgbox.think .more{color:#41f0e0}
+
+.choices{
+  position:absolute;left:50%;transform:translateX(-50%);
+  bottom:8%;
+  width:min(84%,500px);
+  background:#0e1420;color:var(--ink);
+  border:3px solid var(--neon-cyan);
+  padding:10px;box-shadow:6px 8px 0 rgba(0,0,0,.55);
+}
+.choices .cq{font-size:13px;color:var(--neon-cyan);margin:2px 2px 8px;letter-spacing:.04em}
+.choices button{
+  display:block;width:100%;text-align:left;
+  font-family:var(--mono);font-size:14px;line-height:1.35;
+  background:#182135;color:var(--ink);
+  border:2px solid #2b3954;
+  margin:0 0 6px;padding:8px 10px;cursor:pointer;
+}
+.choices button:hover,.choices button:focus-visible{background:#22304d;border-color:var(--neon-cyan);outline:none}
+.choices button:last-child{margin-bottom:0}
+
+.toast{
+  position:absolute;right:10px;top:34px;
+  background:#052b14;color:#7dffb0;border:2px solid #17a54e;
+  font-size:13px;padding:4px 10px;letter-spacing:.05em;
+  animation:toastup 1.6s ease forwards;pointer-events:none;
+}
+.toast.bad{background:#2b0a05;color:#ffb0a6;border-color:#a53617}
+@keyframes toastup{0%{opacity:0;transform:translateY(8px)}12%{opacity:1;transform:none}78%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
+
+/* generic modal panel (inventory, minigames, quiz) */
+.panel{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(92%,560px);max-height:92%;overflow:auto;
+  background:#0e0c16;color:var(--ink);
+  border:3px solid var(--gold);
+  padding:14px;box-shadow:8px 10px 0 rgba(0,0,0,.6);
+}
+.panel h3{margin:0 0 10px;font-size:15px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}
+.panel .pbtn{
+  font-family:var(--mono);font-size:14px;cursor:pointer;
+  background:var(--btn);color:var(--ink);
+  border:2px solid var(--btn-hi);border-bottom-color:var(--btn-lo);border-right-color:var(--btn-lo);
+  padding:7px 12px;margin:3px 4px 3px 0;
+}
+.panel .pbtn:hover,.panel .pbtn:focus-visible{border-color:var(--gold);outline:none}
+.panel .pbtn:disabled{opacity:.4;cursor:default}
+.panel .pbtn.hot{border-color:var(--neon-pink);color:var(--neon-pink)}
+.panel .note{color:var(--dim);font-size:12px;line-height:1.5}
+
+/* inventory grid */
+#invgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin:8px 0}
+.invcell{
+  background:#161225;border:2px solid #2c2544;padding:8px 6px 6px;text-align:center;cursor:pointer
+}
+.invcell:hover,.invcell:focus-visible{border-color:var(--neon-cyan);outline:none}
+.invcell.sel{border-color:var(--neon-pink);box-shadow:0 0 0 1px var(--neon-pink)}
+.invcell canvas{width:48px;height:48px;image-rendering:pixelated;display:block;margin:0 auto 4px}
+.invcell .nm{font-size:11px;color:var(--ink);line-height:1.25}
+
+/* blackjack / slots share card styling */
+.mg-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.mg-big{font-size:26px;letter-spacing:.06em}
+.card{
+  display:inline-block;min-width:34px;text-align:center;
+  background:#f7f3e6;color:#141414;border:2px solid #999;
+  border-radius:4px;font-size:18px;padding:6px 4px;font-weight:700;
+}
+.card.red{color:#c22}
+.card.back{background:repeating-linear-gradient(45deg,#5a2ba0 0 5px,#7a44cc 5px 10px);color:transparent}
+.reel{
+  display:inline-block;width:74px;text-align:center;font-size:26px;font-weight:700;
+  background:#08080d;border:3px solid #574a12;color:var(--gold);
+  padding:14px 0;letter-spacing:.02em;
+}
+.mg-stat{font-size:13px;color:var(--dim)}
+.mg-stat b{color:var(--gold)}
+
+/* control deck under the screen */
+#deck{margin-top:12px}
+#verbrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.spacer{flex:1}
+.vb{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;cursor:pointer;
+  background:var(--btn);color:var(--ink);
+  border:2px solid var(--btn-hi);border-bottom-color:var(--btn-lo);border-right-color:var(--btn-lo);
+  padding:8px 11px;min-width:56px;
+}
+.vb:hover{filter:brightness(1.2)}
+.vb:focus-visible{outline:2px solid var(--neon-cyan);outline-offset:1px}
+.vb.active{background:#3d1140;color:var(--neon-pink);border-color:var(--neon-pink)}
+.vb.sys{color:var(--dim);min-width:0}
+.vb.sys:hover{color:var(--ink)}
+#hoverline{
+  margin:8px 2px 0;font-size:12px;color:var(--neon-cyan);
+  min-height:16px;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+#cmdform{
+  display:flex;gap:8px;align-items:center;margin-top:7px;
+  background:#0a0812;border:2px solid #2c2544;padding:7px 10px;
+}
+#prompt{color:var(--neon-pink);font-weight:700}
+#cmd{
+  flex:1;background:transparent;border:none;color:var(--ink);
+  font-family:var(--mono);font-size:14px;outline:none;
+}
+#cmd::placeholder{color:#5d5570}
+
+#byline{text-align:center;color:#565064;font-size:11px;margin-top:12px;letter-spacing:.04em;line-height:1.6}
+
+@media (max-width:560px){
+  #stage{padding:8px 4px 20px}
+  #cabinet{padding:8px 8px 8px;border-radius:12px}
+  .vb{padding:10px 8px;min-width:0;flex:1 1 auto;text-align:center}
+  .spacer{display:none}
+  .msgbox{font-size:14px;width:88%}
+  .choices{width:92%}
+}
+@media (prefers-reduced-motion:reduce){
+  .toast{animation:none}
+}

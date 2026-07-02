@@ -1,0 +1,33 @@
+<title>Leisure Suit Brendon</title>
+
+<div id="stage">
+  <div id="cabinet">
+    <div id="screenwrap">
+      <canvas id="cv" width="640" height="400"></canvas>
+      <div id="overlay"></div>
+      <div id="scanlines"></div>
+    </div>
+    <div id="deck">
+      <div id="verbrow">
+        <button class="vb" data-verb="walk"  id="vb-walk">WALK</button>
+        <button class="vb" data-verb="look"  id="vb-look">LOOK</button>
+        <button class="vb" data-verb="use"   id="vb-use">USE</button>
+        <button class="vb" data-verb="talk"  id="vb-talk">TALK</button>
+        <button class="vb" data-verb="take"  id="vb-take">TAKE</button>
+        <button class="vb wide" id="vb-inv">ITEMS</button>
+        <span class="spacer"></span>
+        <button class="vb sys" id="vb-hint">HINT</button>
+        <button class="vb sys" id="vb-save">SAVE</button>
+        <button class="vb sys" id="vb-load">LOAD</button>
+        <button class="vb sys" id="vb-snd" aria-label="toggle sound">SND:ON</button>
+      </div>
+      <div id="hoverline">&nbsp;</div>
+      <form id="cmdform" autocomplete="off">
+        <span id="prompt">&gt;</span>
+        <input id="cmd" type="text" placeholder="type a command (or just click the scene)…"
+               autocapitalize="off" autocorrect="off" spellcheck="false" />
+      </form>
+    </div>
+  </div>
+  <div id="byline">an original parody homage to the 1987 Sierra classic · 100% new art, words &amp; code · not affiliated with Sierra</div>
+</div>

@@ -35,7 +35,7 @@
   ROOMS.lobby = {
     name: "Rivers Casino — lobby",
     music: 'casino',
-    desc: "The Rivers Casino lobby: marble that judges your shoes, a chandelier with delusions of Versailles, Grace at the front desk, and a gold elevator marked 'PH' that has never once opened for someone like you.",
+    desc: "The Rivers Casino lobby: marble that judges your shoes, a chandelier with delusions of Versailles, Grace at the front desk, a gold elevator marked 'PH' that has never once opened for someone like you, and a revolving door to the street where your taxi idles.",
     walk: { x0: 50, x1: 590, y0: 306, y1: 368 }, sMin: 1.0, sMax: 1.16,
     spawn: [320, 340],
     draw(t) {
@@ -67,8 +67,24 @@
       F.neon(cx, 'CASINO', 77, 150, 1, '#f5c542', t, 1);
       const chase = Math.floor(t / 150) % 8;
       for (let i = 0; i < 8; i++) R(24 + i * 13, 122, 6, 6, i === chase ? '#ffe9a3' : '#7a6a3a');
+      // revolving door to the street
+      F.neon(cx, 'TAXI', 366, 118, 1, '#f5c542', t, 1);
+      R(300, 136, 132, 12, '#8a6a2a'); R(304, 138, 124, 8, '#c9a34a');    // canopy
+      R(306, 148, 120, 130, '#8a6a2a'); R(312, 156, 108, 122, '#c9a34a'); // brass frame
+      R(318, 162, 96, 112, '#141c30');                                    // night street beyond
+      R(322, 250, 88, 24, '#232c40');                                     // curb
+      // the taxi, idling hopefully
+      R(330, 240, 52, 14, '#f5c542'); R(338, 232, 32, 10, '#f5c542');
+      R(340, 234, 12, 6, '#1a2436'); R(356, 234, 12, 6, '#1a2436');
+      for (let i = 0; i < 6; i++) R(332 + i * 8, 246, 4, 4, i % 2 ? '#111' : '#f2ead8');
+      R(334, 252, 8, 6, '#0a0a12'); R(368, 252, 8, 6, '#0a0a12');
+      glow(328, 246, 9, '#ffe9a3', 0.3);
+      // wings of the revolving door, forever revolving
+      const wing = Math.sin(t / 700) * 42;
+      R(364 + wing, 164, 4, 108, '#e8e4f0'); R(364 - wing, 164, 4, 108, '#bfb9cf');
+      R(363, 162, 6, 112, '#8a6a2a');
       // palms
-      A.plant(400, 300, 1.2); A.plant(620, 300, 1.1);
+      A.plant(450, 300, 1.1); A.plant(620, 300, 1.1);
       // suite corridor right
       F.text(cx, 'SUITES →', 590, 214, 1, '#8d8798');
     },
@@ -81,13 +97,13 @@
         { name: 'casino floor', syn: ['casino', 'arch', 'gambling'], x: 20, y: 118, w: 114, h: 162, wx: 80, wy: 320, goto: () => E.goto('casino', 560, 336), look: "Through the arch: the song of slot machines and the gentle weeping of mathematics." },
         { name: 'chandelier', syn: ['chandelier', 'lights'], x: 276, y: 40, w: 90, h: 44, remote: true, look: "A chandelier worth more than your car. Than everyone's car. It knows." },
         { name: 'hotel suites', syn: ['suite', 'suites', 'hallway', 'room'], x: 586, y: 190, w: 54, h: 120, wx: 590, wy: 336, when: () => G.flags.wedded, goto: () => E.goto('suite', 320, 340), look: "The corridor to the suites, including the scene of your marriage. Both minutes of it." },
-        { name: 'revolving door (taxi)', syn: ['taxi', 'door', 'exit', 'out', 'revolving door', 'leave'], x: 250, y: 330, w: 140, h: 60, wx: 320, wy: 356, remote: false, autoUse: true, use: () => TAXI.open(), goto: () => TAXI.open(), look: "The revolving door to the street. A taxi idles hopefully outside, as taxis do." },
+        { name: 'revolving door (taxi)', syn: ['taxi', 'door', 'exit', 'out', 'revolving door', 'leave', 'street', 'cab'], x: 300, y: 112, w: 132, h: 166, wx: 366, wy: 318, remote: false, autoUse: true, use: () => TAXI.open(), goto: () => TAXI.open(), look: "The revolving door to the street, spinning gently on house power. Through the glass: your taxi, idling hopefully, as taxis do." },
       ];
     },
     hint() {
       if (!G.flags.graceBusy) return G.flags.readMag || E.has('mag') ? "Grace would trade her own desk bell for fresh gossip. GIVE the MAGAZINE TO GRACE." : "Grace guards the penthouse elevator. Word is she'd kill for celebrity gossip — the Get-N-Go sells a magazine…";
       if (!G.flags.tookKeycard) return "Grace is GONE into page six. That gold KEYCARD on the desk is basically asking to be taken.";
-      if (G.flags.phCoverPaid) return "Cover's paid — you're on the doorman's list for good. USE the ELEVATOR whenever you're ready.";
+      if (G.flags.phCoverPaid) return "Cover's paid — you're on the doorman's list for good. USE the ELEVATOR whenever you're ready — or the revolving TAXI door if the Get-N-Go's calling.";
       if (G.money < 50) return "The penthouse doorman charges a $50 cover (once — he'll remember you). The casino floor next door would love to 'help'.";
       return "Keycard, password, cash. USE the ELEVATOR — destiny's on the roof.";
     },

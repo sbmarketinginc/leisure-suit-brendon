@@ -44,6 +44,9 @@ GA_ID='G-3J149NJTZ4'   # Google Analytics 4, property "leisuresuitbrendon.com"
   echo "<meta property=\"og:image\" content=\"${SITE_URL}share.png\">"
   echo '<meta property="og:image:width" content="1200">'
   echo '<meta property="og:image:height" content="630">'
+  echo '<link rel="icon" href="favicon.svg" type="image/svg+xml">'
+  echo '<link rel="icon" href="favicon.ico" sizes="32x32">'
+  echo '<link rel="apple-touch-icon" href="apple-touch-icon.png">'
   echo '<meta name="twitter:card" content="summary_large_image">'
   echo '<meta name="twitter:title" content="Leisure Suit Brendon — In the City of Bridges">'
   echo "<meta name=\"twitter:description\" content=\"$OG_DESC\">"
@@ -66,5 +69,6 @@ EOF
 mkdir -p docs
 cp dist/index.html docs/index.html   # GitHub Pages serves from /docs
 cp promo/share.png docs/share.png    # social share image (og:image)
+cp promo/favicon.ico promo/favicon.svg promo/apple-touch-icon.png docs/   # tools/make_favicon.py
 
 echo "built: dist/artifact.html ($(wc -c < dist/artifact.html | tr -d ' ') bytes), dist/index.html, docs/index.html"
